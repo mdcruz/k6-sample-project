@@ -10,6 +10,10 @@ export const options = {
     { duration: '1m', target: 40 },
     { duration: '30s', target: 0 },
   ],
+  thresholds: {
+    checks: ['rate>0.9'],
+    http_req_duration: ['avg<50'],
+  },
 };
 
 export default function () {
@@ -23,6 +27,13 @@ export default function () {
 
     group('Todos endpoint', function () {
       const res = http.get(`${baseUrl}/todos`);
+      check(res, {
+        'is status code 200': (r) => r.status === 200,
+      });
+    });
+
+    group('Todos endpoint (invalid)', function () {
+      const res = http.get(`${baseUrl}/todoss`);
       check(res, {
         'is status code 200': (r) => r.status === 200,
       });
