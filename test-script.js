@@ -11,7 +11,9 @@ export const options = {
     { duration: '30s', target: 0 },
   ],
   thresholds: {
-    checks: ['rate>0.9'],
+    checks: [
+      { threshold: 'rate>0.9', abortOnFail: true, delayAbortEval: '10s' },
+    ],
     http_req_duration: ['avg<50'],
   },
 };
